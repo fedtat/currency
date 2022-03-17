@@ -23,8 +23,11 @@ def generate_users(users_count=10):
 
 
 def hello_world(request):
+    default_count = 10
     if 'count' in request.GET:
         count = int(request.GET['count'])
-        return HttpResponse(generate_users(count))
     else:
-        return HttpResponse(generate_users())
+        count = default_count
+    if count > 1000:
+        count = default_count
+    return HttpResponse(generate_users(count))
