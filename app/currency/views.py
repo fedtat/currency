@@ -1,6 +1,8 @@
 import random
 import string
 
+from currency.models import ContactUs
+
 from django.http import HttpResponse
 
 from faker import Faker
@@ -31,3 +33,14 @@ def hello_world(request):
     if count > 1000:
         count = default_count
     return HttpResponse(generate_users(count))
+
+
+def contacts_list(request):
+    '''
+    Get users' contacts data from the database
+    :return: list of lists with users' emails and messages
+    '''
+    contacts = []
+    for contact in ContactUs.objects.all():
+        contacts.append([contact.email_from, contact.subject, contact.message])
+    return HttpResponse(str(contacts))
