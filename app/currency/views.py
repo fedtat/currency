@@ -42,5 +42,5 @@ def contacts_list(request):
     '''
     contacts = []
     for contact in ContactUs.objects.all():
-        contacts.append([contact.email_from, contact.subject, contact.message])
+        contacts.append([contact.id, contact.email_from, contact.subject, contact.message])
     return HttpResponse(str(contacts))
