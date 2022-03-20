@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Sources{% endblock %}
+
+{% block content %}
+    <p>
+        Do you want to delete `Source` with id '{{ source.id }}'?
+    </p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Delete Source</button>
+    </form>
+{% endblock content %}
