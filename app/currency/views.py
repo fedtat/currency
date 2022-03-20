@@ -1,9 +1,10 @@
 import random
 import string
 
-from currency.models import ContactUs
+from currency.models import ContactUs, Rate
 
 from django.http import HttpResponse
+from django.shortcuts import render
 
 from faker import Faker
 
@@ -40,7 +41,14 @@ def contacts_list(request):
     Get users' contacts data from the database
     :return: list of lists with users' emails and messages
     '''
-    contacts = []
-    for contact in ContactUs.objects.all():
-        contacts.append([contact.id, contact.email_from, contact.subject, contact.message])
-    return HttpResponse(str(contacts))
+    contacts = ContactUs.objects.all()
+    return render(request, 'contacts_list.html', context={'contacts': contacts})
+
+
+def rate_list(request):
+    rates = Rate.objects.all()
+    return render(request, 'rate_list.html', context={'rates': rates})
+
+
+def index(request):
+    return render(request, 'index.html')
