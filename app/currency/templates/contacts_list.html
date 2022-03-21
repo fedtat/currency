@@ -11,7 +11,7 @@
         <th>Subject</th>
         <th>Message</th>
     </tr>
-    {% for contact in contacts %}
+    {% for contact in object_list %}
     <tr>
         <td>{{ contact.id }}</td>
         <td>{{ contact.email_from }}</td>
