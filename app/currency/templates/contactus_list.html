@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}ContactUs{% endblock %}
+
+{% block content %}
+    <a href="{% url 'currency:contactus_create' %}">ContactUs</a>
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Email</th>
+            <th>Subject</th>
+            <th>Message</th>
+        </tr>
+        {% for contact in object_list %}
+        <tr>
+            <td>{{ contact.id }}</td>
+            <td>{{ contact.email_from }}</td>
+            <td>{{ contact.subject }}</td>
+            <td>{{ contact.message }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock content %}

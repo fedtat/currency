@@ -1,10 +1,15 @@
+from currency import model_choices as mch
+
 from django.db import models
 
 
 class ContactUs(models.Model):
-    email_from = models.EmailField(max_length=254)
+    created = models.DateTimeField(auto_now_add=True)
+    name = models.CharField(max_length=128)
+    email_from = models.EmailField()
     subject = models.CharField(max_length=64)
     message = models.CharField(max_length=1000)
+    raw_content = models.TextField()
 
 
 class Rate(models.Model):
@@ -16,6 +21,6 @@ class Rate(models.Model):
 
 
 class Source(models.Model):
-    name = models.CharField(max_length=64)
+    name = models.CharField(max_length=64, choices=mch.SourceName.choices)
     source_url = models.CharField(max_length=255)
     phone = models.CharField(max_length=20)
