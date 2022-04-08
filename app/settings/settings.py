@@ -53,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'currency.middlewares.RequestResponseTimeMiddleware',
 ]
 
 ROOT_URLCONF = 'settings.urls'
@@ -135,6 +136,7 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587  # smtp (standard port); http: 80, https: 443
 EMAIL_HOST_USER = 'emailfortestsreceiver@gmail.com'
 EMAIL_HOST_PASSWORD = 'qwerty#123456qwerty'
+DEFAULT_FROM_EMAIL = 'emailfortestsreceiver@gmail.com'
 
 # docker
 if DEBUG:

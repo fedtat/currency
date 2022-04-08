@@ -18,24 +18,26 @@ class ContactUsCreate(CreateView):
     form_class = ContactUsForm
     success_url = reverse_lazy('index')
 
-    def form_valid(self, form):
-        cleaned_data = form.cleaned_data
-        recipient = settings.EMAIL_HOST_USER
+    def _send_email(self):
+        # recipient = settings.EMAIL_HOST_USER
         subject = 'User ContactUs'
         body = f'''
-        Request From: {cleaned_data['name']}
-        Email to reply: {cleaned_data['email_from']}
-        Subject: {cleaned_data['subject']}
-        Body: {cleaned_data['message']}
+            Request From: {self.object.name}
+            Email to reply: {self.object.email_from}
+            Subject: {self.object.subject}
+            Body: {self.object.message}
         '''
         send_mail(
             subject,
             body,
-            recipient,
-            [recipient],
+            settings.DEFAULT_FROM_EMAIL,
+            [settings.DEFAULT_FROM_EMAIL],
             fail_silently=False
         )
-        redirect = super().form_valid(cleaned_data)
+
+    def form_valid(self, form):
+        redirect = super().form_valid(form)
+        self._send_email()
         return redirect
 
 
