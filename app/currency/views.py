@@ -1,13 +1,44 @@
-from currency.forms import SourceForm
+from currency.forms import ContactUsForm, SourceForm
 from currency.models import ContactUs, Rate, Source
 
+from django.conf import settings  # if anything required from settings (NEVER DO THIS: from settings import settings!)
+from django.core.mail import send_mail
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 
-class ContactsList(ListView):
+class ContactUsList(ListView):
     queryset = ContactUs.objects.all().order_by('-id')  # the same as this: model = ContactUs
-    template_name = 'contacts_list.html'
+    template_name = 'contactus_list.html'
+
+
+class ContactUsCreate(CreateView):
+    model = ContactUs
+    template_name = 'contactus_create.html'
+    form_class = ContactUsForm
+    success_url = reverse_lazy('index')
+
+    def _send_email(self):
+        # recipient = settings.EMAIL_HOST_USER
+        subject = 'User ContactUs'
+        body = f'''
+            Request From: {self.object.name}
+            Email to reply: {self.object.email_from}
+            Subject: {self.object.subject}
+            Body: {self.object.message}
+        '''
+        send_mail(
+            subject,
+            body,
+            settings.DEFAULT_FROM_EMAIL,
+            [settings.DEFAULT_FROM_EMAIL],
+            fail_silently=False
+        )
+
+    def form_valid(self, form):
+        redirect = super().form_valid(form)
+        self._send_email()
+        return redirect
 
 
 class RateList(ListView):
