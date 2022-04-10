@@ -5,6 +5,7 @@ from django.urls import path
 app_name = 'currency'
 
 urlpatterns = [
+    # path('example/', currency_views.ExampleView.as_view(), name='example'),
     path('contactus/list/', currency_views.ContactUsList.as_view(), name='contactus_list'),
     path('contactus/create/', currency_views.ContactUsCreate.as_view(), name='contactus_create'),
     path('rate/list/', currency_views.RateList.as_view(), name='rate_list'),
