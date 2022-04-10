@@ -1,7 +1,8 @@
-from currency.forms import ContactUsForm, SourceForm
+from currency.forms import ContactUsForm, RateForm, SourceForm
 from currency.models import ContactUs, Rate, Source
 
 from django.conf import settings  # if anything required from settings (NEVER DO THIS: from settings import settings!)
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.mail import send_mail
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
@@ -44,6 +45,17 @@ class ContactUsCreate(CreateView):
 class RateList(ListView):
     queryset = Rate.objects.all().order_by('-id')  # the same as this: model = Rate
     template_name = 'rate_list.html'
+
+
+class RateUpdate(UserPassesTestMixin, UpdateView):
+    model = Rate
+    template_name = 'rate_update.html'
+    form_class = RateForm
+    success_url = reverse_lazy('currency:rate_list')
+    login_url = reverse_lazy('login')
+
+    def test_func(self):
+        return self.request.user.is_superuser
 
 
 class SourceList(ListView):
