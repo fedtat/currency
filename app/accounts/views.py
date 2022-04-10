@@ -22,3 +22,15 @@ class MyProfile(LoginRequiredMixin, UpdateView):
     #     # queryset = User.objects.all()  # the same as the row above
     #     queryset = queryset.filter(id=self.request.user.id)
     #     return queryset
+
+
+class PasswordChangeView(LoginRequiredMixin, UpdateView):
+    model = User  # the same as: queryset = User.objects.all()
+    template_name = 'change_password.html'
+    success_url = reverse_lazy('password_change_done')
+    fields = (
+        'password',
+    )
+
+    def get_object(self, queryset=None):
+        return self.request.user
