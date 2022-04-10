@@ -3,4 +3,16 @@
     <a href="{% url 'currency:rate_list' %}">Rate List</a>
     <a href="{% url 'currency:contactus_list' %}">ContactUs List</a>
     <a href="{% url 'currency:source_list' %}">Source List</a>
+
+    {% if request.user.is_authenticated %}
+        Name: {{ request.user.first_name }} {{ request.user.last_name }}
+        ID: {{ request.user.id }}
+        <a href="{% url 'accounts:my-profile' %}">My Profile</a>
+        <a href="{% url 'accounts:change_password' %}">Change password</a>
+        <a href="{% url 'logout' %}">Logout</a>
+    {% else %}
+    <a href="{% url 'accounts:signup' %}">Sign Up</a>
+    <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+
 </nav>

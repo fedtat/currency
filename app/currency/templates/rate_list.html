@@ -3,7 +3,7 @@
 {% block title %}Rates{% endblock %}
 
 {% block content %}
-
+<a href="{% url 'currency:rate_create' %}">Create Rate</a>
 <table>
     <tr>
         <th>Id</th>
@@ -19,8 +19,9 @@
         <td>{{ rate.buy }}</td>
         <td>{{ rate.sell }}</td>
         <td>{{ rate.type }}</td>
-        <td>{{ rate.source }}</td>
+        <td>{{ rate.source.name }}</td>
         <td>{{ rate.created|date:"Y-m-d" }}</td>
+        <td><a href="{% url 'currency:rate_update' pk=rate.id %}">Edit</a></td>
     </tr>
     {% endfor %}
 </table>
