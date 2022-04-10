@@ -12,15 +12,18 @@ class ContactUs(models.Model):
     raw_content = models.TextField()
 
 
-class Rate(models.Model):
-    type = models.CharField(max_length=5)  # noqa: A003
-    source = models.CharField(max_length=64)
-    created = models.DateTimeField(auto_now_add=True)
-    buy = models.DecimalField(max_digits=10, decimal_places=2)
-    sell = models.DecimalField(max_digits=10, decimal_places=2)
-
-
 class Source(models.Model):
     name = models.CharField(max_length=64, choices=mch.SourceName.choices)
     source_url = models.CharField(max_length=255)
     phone = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.name
+
+
+class Rate(models.Model):
+    type = models.CharField(max_length=5, choices=mch.RateType.choices)  # noqa: A003
+    source = models.ForeignKey(Source, on_delete=models.CASCADE, related_name='rates')
+    created = models.DateTimeField(auto_now_add=True)
+    buy = models.DecimalField(max_digits=10, decimal_places=2)
+    sell = models.DecimalField(max_digits=10, decimal_places=2)

@@ -7,6 +7,11 @@ class SourceName(models.TextChoices):
     OB = 'OB', 'OschadBank'
 
 
+class RateType(models.TextChoices):
+    USD = 'USD', 'Dollar'
+    EUR = 'EUR', 'Euro'
+
+
 # SOURCE_NAME_PB = 'PB'
 # SOURCE_NAME_MB = 'MB'
 # SOURCE_NAME_OB = 'OB'

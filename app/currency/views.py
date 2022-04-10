@@ -43,8 +43,15 @@ class ContactUsCreate(CreateView):
 
 
 class RateList(ListView):
-    queryset = Rate.objects.all().order_by('-id')  # the same as this: model = Rate
+    queryset = Rate.objects.all().order_by('-id').select_related('source')  # the same as this: model = Rate
     template_name = 'rate_list.html'
+
+
+class RateCreate(CreateView):
+    model = Rate
+    template_name = 'rate_create.html'
+    form_class = RateForm
+    success_url = reverse_lazy('currency:rate_list')
 
 
 class RateUpdate(UserPassesTestMixin, UpdateView):
