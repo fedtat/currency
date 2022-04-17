@@ -141,7 +141,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_PORT = 587  # smtp (standard port); http: 80, https: 443
 # EMAIL_HOST_USER = 'emailfortestsreceiver@gmail.com'
 # EMAIL_HOST_PASSWORD = 'qwerty#123456qwerty'
-# DEFAULT_FROM_EMAIL = 'emailfortestsreceiver@gmail.com'
+DEFAULT_FROM_EMAIL = 'emailfortestsreceiver@gmail.com'
 
 # docker
 if DEBUG:
@@ -152,3 +152,7 @@ if DEBUG:
 
 LOGIN_REDIRECT_URL = reverse_lazy('index')
 AUTH_USER_MODEL = 'accounts.User'
+
+# Custom settings
+DOMAIN = '127.0.0.1:8000'
+HTTP_SCHEMA = 'http'
