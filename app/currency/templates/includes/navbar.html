@@ -1,18 +1,44 @@
-<nav>
-    <a href="{% url 'index' %}">Home</a>
-    <a href="{% url 'currency:rate_list' %}">Rate List</a>
-    <a href="{% url 'currency:contactus_list' %}">ContactUs List</a>
-    <a href="{% url 'currency:source_list' %}">Source List</a>
+{% load static %}
 
-    {% if request.user.is_authenticated %}
-        Name: {{ request.user.first_name }} {{ request.user.last_name }}
-        ID: {{ request.user.id }}
-        <a href="{% url 'accounts:my-profile' %}">My Profile</a>
-        <a href="{% url 'accounts:change_password' %}">Change password</a>
-        <a href="{% url 'logout' %}">Logout</a>
-    {% else %}
-    <a href="{% url 'accounts:signup' %}">Sign Up</a>
-    <a href="{% url 'login' %}">Login</a>
-    {% endif %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="{% url 'index' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'currency:rate_list' %}">Rate List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'currency:contactus_list' %}">ContactUs List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'currency:source_list' %}">Source List</a>
+                </li>
+            </ul>
+            <span class="navbar-text">
+            {% if request.user.is_authenticated %}
+                Name: {{ request.user.first_name }} {{ request.user.last_name }}
+                ID: {{ request.user.id }}
+                {% if request.user.avatar %}
+                    <img src="{{ request.user.avatar.url }}" width="30" height="30" class="rounded-circle">
+                {% else %}
+                    <img src="{% static 'img/anon_user.png' %}" width="30" height="30" class="rounded-circle">
+                {% endif %}
 
+                <a href="{% url 'accounts:my-profile' %}">My Profile</a>
+                <a href="{% url 'accounts:change_password' %}">Change password</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'accounts:signup' %}" class="btn btn-info">Sign Up</a>
+                <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+            </span>
+        </div>
+    </div>
 </nav>
