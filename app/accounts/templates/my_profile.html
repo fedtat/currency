@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block title %}My Profile{% endblock %}
 
 {% block content %}
@@ -10,8 +12,8 @@
     <div>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Update Profile</button>
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-primary">Update Profile</button>
         </form>
     </div>
 {% endblock content %}

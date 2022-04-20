@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}Sources{% endblock %}
 
 {% block content %}
@@ -15,6 +17,7 @@
             <thead>
             <tr>
                 <th scope="col">Id</th>
+                <th scope="col">Logo</th>
                 <th scope="col">Source Name</th>
                 <th scope="col">URL</th>
                 <th scope="col">Phone</th>
@@ -24,23 +27,34 @@
             {% for source in object_list %}
             <tr>
                 <th scope="row">{{ source.id }}</th>
+                <td>
+                    {% if source.name == 'PB' %}
+                        <img src="{% static 'img/privat_logo.png' %}" width="30" height="30">
+                    {% elif source.name == 'MB' %}
+                        <img src="{% static 'img/mono_logo.png' %}" width="30" height="30">
+                    {% elif source.name == 'OB' %}
+                        <img src="{% static 'img/oschad_logo.png' %}" width="30" height="30">
+                    {% else %}
+                        <img src="{% static 'img/no_logo.png' %}" width="30" height="30">
+                    {% endif %}
+                </td>
                 <td>{{ source.name }}</td>
                 <td>{{ source.source_url }}</td>
                 <td>{{ source.phone }}</td>
                 <td>
                     <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                                data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown" aria-expanded="false">
                             Actions
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item"
-                                   href="{% url 'currency:source_detail' pk=source.id %}">Details</a></li>
-                            <li><a class="dropdown-item"
-                                   href="{% url 'currency:source_update' pk=source.id %}">Update</a></li>
-                            <li><a class="dropdown-item"
-                                   href="{% url 'currency:source_delete' pk=source.id %}">Delete</a></li>
-                        </ul>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item"
+                               href="{% url 'currency:source_detail' pk=source.id %}">Details</a>
+                            <a class="dropdown-item"
+                               href="{% url 'currency:source_update' pk=source.id %}">Update</a>
+                            <a class="dropdown-item"
+                               href="{% url 'currency:source_delete' pk=source.id %}">Delete</a>
+                        </div>
                     </div>
                 </td>
             </tr>
