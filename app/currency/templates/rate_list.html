@@ -3,27 +3,52 @@
 {% block title %}Rates{% endblock %}
 
 {% block content %}
-<a href="{% url 'currency:rate_create' %}">Create Rate</a>
-<table>
-    <tr>
-        <th>Id</th>
-        <th>Buy</th>
-        <th>Sell</th>
-        <th>Type</th>
-        <th>Source</th>
-        <th>Created</th>
-    </tr>
-    {% for rate in object_list %}
-    <tr>
-        <td>{{ rate.id }}</td>
-        <td>{{ rate.buy }}</td>
-        <td>{{ rate.sell }}</td>
-        <td>{{ rate.type }}</td>
-        <td>{{ rate.source.name }}</td>
-        <td>{{ rate.created|date:"Y-m-d" }}</td>
-        <td><a href="{% url 'currency:rate_update' pk=rate.id %}">Edit</a></td>
-    </tr>
-    {% endfor %}
-</table>
+<div class="row">
+    <div class="col">
+        <a href="{% url 'currency:rate_create' %}">Create Rate</a>
+    </div>
+</div>
 
+<div class="row">
+    <div class="col">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Source Name</th>
+                <th scope="col">Buy</th>
+                <th scope="col">Sell</th>
+                <th scope="col">Type</th>
+                <th scope="col">Created</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for rate in object_list %}
+            <tr>
+                <th scope="row">{{ rate.id }}</th>
+                <td>{{ rate.source.name }}</td>
+                <td>{{ rate.buy }}</td>
+                <td>{{ rate.sell }}</td>
+                <td>{{ rate.get_type_display }}</td>
+                <td>{{ rate.created }}</td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            Actions
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="#">Details</a></li>
+                            <li><a class="dropdown-item" href="#">Update</a></li>
+                            <li><a class="dropdown-item" href="#">Edit</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock content %}
