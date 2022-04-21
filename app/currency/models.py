@@ -16,6 +16,7 @@ class Source(models.Model):
     name = models.CharField(max_length=64, choices=mch.SourceName.choices)
     source_url = models.CharField(max_length=255)
     phone = models.CharField(max_length=20)
+    icon = models.FileField(default=None, null=True, blank=True)
 
     def __str__(self):
         return self.name
