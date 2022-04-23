@@ -65,6 +65,12 @@ class RateUpdate(UserPassesTestMixin, UpdateView):
         return self.request.user.is_superuser
 
 
+class RateDelete(DeleteView):
+    model = Rate
+    template_name = 'rate_delete.html'
+    success_url = reverse_lazy('currency:rate_list')
+
+
 class SourceList(ListView):
     model = Source
     template_name = 'source_list.html'

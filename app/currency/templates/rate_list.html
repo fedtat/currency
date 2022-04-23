@@ -16,9 +16,10 @@
             <tr>
                 <th scope="col">Id</th>
                 <th scope="col">Source Name</th>
-                <th scope="col">Buy</th>
-                <th scope="col">Sell</th>
+                <th scope="col">Base Currency</th>
                 <th scope="col">Type</th>
+                <th scope="col">Buy</th>
+                <th scope="col">Sale</th>
                 <th scope="col">Created</th>
                 <th scope="col">Actions</th>
             </tr>
@@ -28,9 +29,10 @@
             <tr>
                 <th scope="row">{{ rate.id }}</th>
                 <td>{{ rate.source.name }}</td>
-                <td>{{ rate.buy }}</td>
-                <td>{{ rate.sell }}</td>
+                <td>{{ rate.get_base_type_display }}</td>
                 <td>{{ rate.get_type_display }}</td>
+                <td>{{ rate.buy }}</td>
+                <td>{{ rate.sale }}</td>
                 <td>{{ rate.created }}</td>
                 <td>
                     <div class="dropdown">
@@ -39,9 +41,8 @@
                             Actions
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Details</a>
-                            <a class="dropdown-item" href="#">Update</a>
-                            <a class="dropdown-item" href="#">Edit</a>
+                            <a class="dropdown-item" href="{% url 'currency:rate_update' pk=rate.id %}">Edit</a>
+                            <a class="dropdown-item" href="{% url 'currency:rate_delete' pk=rate.id %}">Delete</a>
                         </div>
                     </div>
                 </td>
