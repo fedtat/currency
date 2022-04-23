@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Rates{% endblock %}
+
+{% block content %}
+    <p>
+        Do you want to delete `Rate` with id '{{ object.id }}'?
+    </p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete Rate</button>
+    </form>
+{% endblock content %}

@@ -17,7 +17,7 @@
             <thead>
             <tr>
                 <th scope="col">Id</th>
-                <th scope="col">Logo</th>
+                <th scope="col"></th>
                 <th scope="col">Source Name</th>
                 <th scope="col">URL</th>
                 <th scope="col">Phone</th>
@@ -28,9 +28,9 @@
             <tr>
                 <th scope="row">{{ source.id }}</th>
                 <td>
-                    {% if source.name == 'PB' %}
+                    {% if source.code_name == 1 %}
                         <img src="{% static 'img/privat_logo.png' %}" width="30" height="30">
-                    {% elif source.name == 'MB' %}
+                    {% elif source.code_name == 2 %}
                         <img src="{% static 'img/mono_logo.png' %}" width="30" height="30">
                     {% elif source.name == 'OB' %}
                         <img src="{% static 'img/oschad_logo.png' %}" width="30" height="30">
@@ -38,7 +38,7 @@
                         <img src="{% static 'img/no_logo.png' %}" width="30" height="30">
                     {% endif %}
                 </td>
-                <td>{{ source.name }}</td>
+                <td>{{ source.get_code_name_display }}</td>
                 <td>{{ source.source_url }}</td>
                 <td>{{ source.phone }}</td>
                 <td>
