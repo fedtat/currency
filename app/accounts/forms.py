@@ -30,6 +30,6 @@ class SignUpForm(forms.ModelForm):
         if commit:
             user.save()
 
-        send_activation_email.delay()
+        send_activation_email.delay(user.username, user.email)
 
         return user

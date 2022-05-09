@@ -34,8 +34,8 @@
                 <a href="{% url 'accounts:change_password' %}">Change password</a>
                 <a href="{% url 'logout' %}">Logout</a>
             {% else %}
-                <a href="{% url 'accounts:signup' %}" class="btn btn-info">Sign Up</a>
-                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'accounts:signup' %}" class="btn btn-warning">Sign Up</a>
+                <a href="{% url 'login' %}" class="btn btn-info">Login</a>
             {% endif %}
             </span>
         </div>
