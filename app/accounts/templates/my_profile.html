@@ -8,7 +8,7 @@
     <div>
         <h3>My Profile</h3>
     </div>
-    <img src="{{ request.user.avatar.url }}" width="150" height="150" class="rounded">
+    <img src="{{ request.user.avatar_url }}" width="150" height="150" class="rounded">
     <div>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
