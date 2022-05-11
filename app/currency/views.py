@@ -1,11 +1,15 @@
+from currency.filters import RateFilter
 from currency.forms import ContactUsForm, RateForm, SourceForm
 from currency.models import ContactUs, Rate, Source
 
 from django.conf import settings  # if anything required from settings (NEVER DO THIS: from settings import settings!)
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.mail import send_mail
+from django.http.request import QueryDict
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
+
+from django_filters.views import FilterView
 
 
 class ContactUsList(ListView):
@@ -42,9 +46,22 @@ class ContactUsCreate(CreateView):
         return redirect
 
 
-class RateList(ListView):
+class RateList(FilterView):
     queryset = Rate.objects.all().order_by('-id').select_related('source')  # the same as this: model = Rate
     template_name = 'rate_list.html'
+    paginate_by = 10
+    filterset_class = RateFilter
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+
+        query_params = QueryDict(mutable=True)
+        for key, value in self.request.GET.items():
+            if key != 'page':
+                query_params[key] = value
+
+        context['filter_params'] = query_params.urlencode()
+        return context
 
 
 class RateCreate(CreateView):
