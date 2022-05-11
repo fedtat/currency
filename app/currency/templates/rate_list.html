@@ -3,53 +3,63 @@
 {% block title %}Rates{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col">
-        <a href="{% url 'currency:rate_create' %}">Create Rate</a>
+    <div class="row">
+        <div class="col">
+            <a href="{% url 'currency:rate_create' %}">Create Rate</a>
+        </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Source Name</th>
-                <th scope="col">Base Currency</th>
-                <th scope="col">Type</th>
-                <th scope="col">Buy</th>
-                <th scope="col">Sale</th>
-                <th scope="col">Created</th>
-                <th scope="col">Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for rate in object_list %}
-            <tr>
-                <th scope="row">{{ rate.id }}</th>
-                <td>{{ rate.source.name }}</td>
-                <td>{{ rate.get_base_type_display }}</td>
-                <td>{{ rate.get_type_display }}</td>
-                <td>{{ rate.buy }}</td>
-                <td>{{ rate.sale }}</td>
-                <td>{{ rate.created }}</td>
-                <td>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                            Actions
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="{% url 'currency:rate_update' pk=rate.id %}">Edit</a>
-                            <a class="dropdown-item" href="{% url 'currency:rate_delete' pk=rate.id %}">Delete</a>
+    <form method="get">
+        {{ filter.form.as_p }}
+        <button type ="submit" class="btn btn-primary">
+            <span class="glyphicon glyphicon-search"></span> Apply Filters
+        </button>
+    </form>
+
+    <div class="row">
+        <div class="col">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Source Name</th>
+                    <th scope="col">Base Currency</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Buy</th>
+                    <th scope="col">Sale</th>
+                    <th scope="col">Created</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for rate in object_list %}
+                <tr>
+                    <th scope="row">{{ rate.id }}</th>
+                    <td>{{ rate.source.name }}</td>
+                    <td>{{ rate.get_base_type_display }}</td>
+                    <td>{{ rate.get_type_display }}</td>
+                    <td>{{ rate.buy }}</td>
+                    <td>{{ rate.sale }}</td>
+                    <td>{{ rate.created }}</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                Actions
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="{% url 'currency:rate_update' pk=rate.id %}">Edit</a>
+                                <a class="dropdown-item" href="{% url 'currency:rate_delete' pk=rate.id %}">Delete</a>
+                            </div>
                         </div>
-                    </div>
-                </td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+
+{% include 'includes/pagination.html' %}
+
 {% endblock content %}
