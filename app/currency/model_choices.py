@@ -17,6 +17,10 @@ class RateType(models.TextChoices):
 class SourceCodeName(models.IntegerChoices):
     PRIVATBANK = 1, 'PrivatBank'
     MONOBANK = 2, 'MonoBank'
+    VKURSE = 3, 'Vkurse'
+    GETGEOAPI = 4, 'GetGeoApi'
+    FIXER = 5, 'Fixer'
+    FREECURRCONV = 6, 'FreeCurrencyConverter'
 
 
 # SOURCE_NAME_PB = 'PB'
