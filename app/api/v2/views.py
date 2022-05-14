@@ -1,4 +1,4 @@
-from api.v2.filters import RateFilter
+from api.v2.filters import ContactUsFilter, RateFilter, SourceFilter
 from api.v2.pagination import RatesPagination
 from api.v2.serializers import ContactUsSerializer, RateSerializer, SourceSerializer
 from api.v2.throttles import AnonCurrencyThrottle
@@ -21,11 +21,25 @@ from rest_framework_xml.renderers import XMLRenderer
 class SourceView(generics.ListAPIView):
     queryset = Source.objects.all()
     serializer_class = SourceSerializer
+    filterset_class = SourceFilter
+    filter_backends = (
+        filters.DjangoFilterBackend,
+        rest_framework_filters.OrderingFilter,
+    )
+    ordering_fields = ('id', 'name', 'source_url')
 
 
 class ContactUsViewSet(viewsets.ModelViewSet):
     queryset = ContactUs.objects.all()
     serializer_class = ContactUsSerializer
+    filterset_class = ContactUsFilter
+    filter_backends = (
+        filters.DjangoFilterBackend,
+        rest_framework_filters.OrderingFilter,
+        rest_framework_filters.SearchFilter,
+    )
+    ordering_fields = ('created', 'name', 'email_from')
+    search_fields = ['created', 'name', 'email_from']
 
     def create(self, request, *args, **kwargs):
         response = super().create(request, *args, **kwargs)
