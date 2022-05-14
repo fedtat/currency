@@ -117,6 +117,21 @@ class SourceDelete(DeleteView):
     template_name = 'source_delete.html'
     success_url = reverse_lazy('currency:source_list')
 
+
+# class RateListApiExample(View):
+#     def get(self, request):
+#         import json
+#         rates = Rate.objects.all()
+#         rates_response = []
+#         for rate in rates:
+#             obj_dict = {
+#                 'id': rate.id,
+#                 'buy': str(rate.buy),
+#                 'sale': str(rate.sale),
+#             }
+#             rates_response.append(obj_dict)
+#         return HttpResponse(json.dumps(rates_response), content_type='application/json')
+
 #
 # class ExampleView(View):
 #     def get(self, request):
