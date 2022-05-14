@@ -1,4 +1,4 @@
-from api.serializers import ContactUsSerializer, RateSerializer, SourceSerializer
+from api.v1.serializers import ContactUsSerializer, RateSerializer, SourceSerializer
 
 from currency.models import ContactUs, Rate, Source
 
