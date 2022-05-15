@@ -46,8 +46,7 @@ def test_contactus_post_valid_data(mailoutbox):
 
 def test_contactus_patch():
     client = APIClient()
-    contact = ContactUs.objects.create(name=23, email_from=settings.DEFAULT_FROM_EMAIL, subject='Subject Example',
-                                       message='Example Text\n' * 10)
+    contact = ContactUs.objects.last()
     payload = {
         'name': 'New Name',
     }
