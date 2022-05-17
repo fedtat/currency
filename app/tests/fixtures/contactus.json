@@ -1,0 +1,50 @@
+[
+  {
+    "model": "currency.contactus",
+    "pk": 2,
+    "fields": {
+      "created": "2022-05-12T15:57:43.854Z",
+      "name": "Vasia",
+      "email_from": "email@email.com",
+      "subject": "new subj",
+      "message": "some new text",
+      "raw_content": ""
+    }
+  },
+  {
+    "model": "currency.contactus",
+    "pk": 4,
+    "fields": {
+      "created": "2022-05-12T16:00:30.020Z",
+      "name": "Petya",
+      "email_from": "email2@email.com",
+      "subject": "new2 subj",
+      "message": "some new2 text",
+      "raw_content": ""
+    }
+  },
+  {
+    "model": "currency.contactus",
+    "pk": 7,
+    "fields": {
+      "created": "2022-05-13T17:08:23.197Z",
+      "name": "John",
+      "email_from": "email7@email.com",
+      "subject": "corrected1",
+      "message": "some 7 text",
+      "raw_content": ""
+    }
+  },
+  {
+    "model": "currency.contactus",
+    "pk": 8,
+    "fields": {
+      "created": "2022-05-13T17:08:48.410Z",
+      "name": "GGGGG",
+      "email_from": "email4@email.com",
+      "subject": "new4 subj",
+      "message": "some new4 text",
+      "raw_content": ""
+    }
+  }
+]

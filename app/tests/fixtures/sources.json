@@ -1,0 +1,68 @@
+[
+  {
+    "model": "currency.source",
+    "pk": 1,
+    "fields": {
+      "name": "PrivatBank",
+      "code_name": 1,
+      "source_url": "https://en.privatbank.ua/",
+      "phone": "+38 044 237 20 60",
+      "icon": ""
+    }
+  },
+  {
+    "model": "currency.source",
+    "pk": 2,
+    "fields": {
+      "name": "MonoBank",
+      "code_name": 2,
+      "source_url": "https://www.monobank.ua/",
+      "phone": "+38 073 716 11 31",
+      "icon": ""
+    }
+  },
+  {
+    "model": "currency.source",
+    "pk": 3,
+    "fields": {
+      "name": "Vkurse",
+      "code_name": 3,
+      "source_url": "http://vkurse.dp.ua/",
+      "phone": "+38(095)280-50-00",
+      "icon": ""
+    }
+  },
+  {
+    "model": "currency.source",
+    "pk": 4,
+    "fields": {
+      "name": "GetGeoAPI",
+      "code_name": 4,
+      "source_url": "https://getgeoapi.com/",
+      "phone": "123456789",
+      "icon": ""
+    }
+  },
+  {
+    "model": "currency.source",
+    "pk": 5,
+    "fields": {
+      "name": "Free Currency Converter",
+      "code_name": 6,
+      "source_url": "https://free.currencyconverterapi.com/",
+      "phone": "123456789",
+      "icon": ""
+    }
+  },
+  {
+    "model": "currency.source",
+    "pk": 6,
+    "fields": {
+      "name": "Fixer",
+      "code_name": 5,
+      "source_url": "https://fixer.io/",
+      "phone": "123456789",
+      "icon": ""
+    }
+  }
+]
