@@ -1,9 +1,10 @@
 from currency.filters import RateFilter
 from currency.forms import ContactUsForm, RateForm, SourceForm
 from currency.models import ContactUs, Rate, Source
+from currency.tasks import contact_us_async
 
 from django.conf import settings  # if anything required from settings (NEVER DO THIS: from settings import settings!)
-from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.mail import send_mail
 from django.http.request import QueryDict
 from django.urls import reverse_lazy
@@ -17,7 +18,7 @@ class ContactUsList(ListView):
     template_name = 'contactus_list.html'
 
 
-class ContactUsCreate(CreateView):
+class ContactUsCreate(LoginRequiredMixin, CreateView):
     model = ContactUs
     template_name = 'contactus_create.html'
     form_class = ContactUsForm
@@ -42,6 +43,12 @@ class ContactUsCreate(CreateView):
 
     def form_valid(self, form):
         redirect = super().form_valid(form)
+        data = form.cleaned_data
+        contact_us_async.delay(
+            data['subject'],
+            data['email_from'],
+            data['message']
+        )
         self._send_email()
         return redirect
 
