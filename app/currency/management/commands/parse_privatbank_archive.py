@@ -23,7 +23,7 @@ class Command(BaseCommand):
 
         rates = []
         base_date = datetime.today() - timedelta(days=1)
-        days_num = 10
+        days_num = 4 * 365
         dates_list = [base_date - timedelta(days=x) for x in range(days_num)]
         for date in dates_list:
             url = f'https://api.privatbank.ua/p24api/exchange_rates?json&date={date.strftime("%d.%m.%Y")}'
