@@ -8,13 +8,13 @@ def test_index(client):
     assert response.status_code == 200
 
 
-def test_contact_us_get(client):
-    response = client.get('/currency/contactus/create/')
+def test_contact_us_get(admin_custom_client):
+    response = admin_custom_client.get('/currency/contactus/create/')
     assert response.status_code == 200
 
 
-def test_contact_us_post_empty_data(client):
-    response = client.post('/currency/contactus/create/')
+def test_contact_us_post_empty_data(admin_custom_client):
+    response = admin_custom_client.post('/currency/contactus/create/')
     assert response.status_code == 200  # when post 200 is error
     assert response.context_data['form'].errors == {
         'name': ['This field is required.'],
@@ -24,7 +24,7 @@ def test_contact_us_post_empty_data(client):
     }
 
 
-def test_contact_us_post_valid_data(client, mailoutbox):
+def test_contact_us_post_valid_data(admin_custom_client, mailoutbox):
     initial_count = ContactUs.objects.count()
     payload = {
         'name': 'Example Name',
@@ -32,7 +32,7 @@ def test_contact_us_post_valid_data(client, mailoutbox):
         'subject': 'Subject Example',
         'message': 'Example Text\n' * 10,
     }
-    response = client.post('/currency/contactus/create/', data=payload)
+    response = admin_custom_client.post('/currency/contactus/create/', data=payload)
     assert response.status_code == 302
     assert response.url == '/'
 
@@ -43,7 +43,7 @@ def test_contact_us_post_valid_data(client, mailoutbox):
     assert ContactUs.objects.count() == initial_count + 1
 
 
-def test_contact_us_post_invalid_email(client, mailoutbox):
+def test_contact_us_post_invalid_email(admin_custom_client, mailoutbox):
     initial_count = ContactUs.objects.count()
     payload = {
         'name': 'Example Name',
@@ -51,7 +51,7 @@ def test_contact_us_post_invalid_email(client, mailoutbox):
         'subject': 'Subject Example',
         'message': 'Example Text\n' * 10,
     }
-    response = client.post('/currency/contactus/create/', data=payload)
+    response = admin_custom_client.post('/currency/contactus/create/', data=payload)
     assert response.status_code == 200
     assert response.context_data['form'].errors == {'email_from': ['Enter a valid email address.']}
     assert len(mailoutbox) == 0

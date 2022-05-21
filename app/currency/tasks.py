@@ -4,6 +4,9 @@ from celery import shared_task
 
 from currency import model_choices as mch
 
+from django.conf import settings
+from django.core.mail import send_mail
+
 import requests
 
 import settings.constants as const
@@ -343,3 +346,21 @@ def parse_freecurrconv():
                 buy=buy,
                 source=source,
             )
+
+
+@shared_task
+def contact_us_async(subject, email_from, message):
+    subject = f"Contact us: {subject}"
+    message = f'''
+        Support Email
+        From: {email_from}
+        Message: {message}
+        '''
+    email_from = settings.DEFAULT_FROM_EMAIL
+    send_mail(
+        subject,
+        message,
+        email_from,
+        [email_from],
+        fail_silently=False,
+    )
