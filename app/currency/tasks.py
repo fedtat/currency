@@ -9,8 +9,6 @@ from django.core.mail import send_mail
 
 import requests
 
-import settings.constants as const
-
 
 def round_decimal(value: str) -> Decimal:
     places = Decimal(10) ** -2
@@ -80,6 +78,8 @@ def parse_monobank():
     for rate in rates:
         currency_type = available_currencies.get(rate['currencyCodeA'])
         base_currency_type = available_currencies.get(rate['currencyCodeB'])
+        if rate['currencyCodeB'] != 980:
+            continue
         sale = rate.get('rateSell')
         if not sale:
             continue
@@ -151,7 +151,7 @@ def parse_getgeoapi():
     from currency.models import Rate, Source
 
     url = 'https://api.getgeoapi.com/v2/currency/convert'
-    api_key = const.GETGEOAPI_KEY
+    api_key = settings.GETGEOAPI_KEY
     available_currencies = {
         'UAH': mch.RateType.UAH,
         'USD': mch.RateType.USD,
@@ -177,7 +177,7 @@ def parse_getgeoapi():
 
     result_rates = []
     for rate in result:
-        d = dict()
+        d = {}
         d['base_currency_type'] = rate['base_currency_code']
         for k, v in rate['rates'].items():
             d['currency_type'] = k
@@ -185,7 +185,7 @@ def parse_getgeoapi():
             result_rates.append(d.copy())
 
     rate_list = []
-    d2 = dict()
+    d2 = {}
     for i in result_rates:
         for j in result_rates:
             if i['base_currency_type'] == j['currency_type'] and j['base_currency_type'] == i['currency_type']\
@@ -227,7 +227,7 @@ def parse_fixer():
 
     url = 'https://api.apilayer.com/fixer/convert'
     headers = {
-        'apikey': const.FIXER_API_KEY,
+        'apikey': settings.FIXER_API_KEY,
     }
 
     available_currencies = {
@@ -254,7 +254,7 @@ def parse_fixer():
             rates_list.append(rates)
 
     rates = []
-    d = dict()
+    d = {}
     for i in rates_list:
         for j in rates_list:
             if i['query']['from'] == j['query']['to'] and j['query']['from'] == i['query']['to']\
@@ -305,7 +305,7 @@ def parse_freecurrconv():
     for currency in available_currencies.keys():
         params = {
             'q': f'{currency}_UAH,UAH_{currency}',
-            'apiKey': const.CUR_CONV_API_KEY,
+            'apiKey': settings.CUR_CONV_API_KEY,
         }
         response = requests.get(url, params=params)
         response.raise_for_status()
@@ -314,7 +314,7 @@ def parse_freecurrconv():
 
     rate_list = []
     for rate in result:
-        d = dict()
+        d = {}
         for v in rate['results'].values():
             if v['fr'] == 'UAH':
                 d['base_currency_type'] = v['fr']

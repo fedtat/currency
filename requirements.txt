@@ -8,6 +8,7 @@ drf-yasg==1.20.0
 djangorestframework-xml==2.0.0
 djangorestframework-csv==2.1.1
 djangorestframework-simplejwt==5.1.0
+python-dotenv==0.20.0
 
 # dev
 Faker==13.0.0

@@ -9,13 +9,16 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import os
 from datetime import timedelta
 from pathlib import Path
 
 from celery.schedules import crontab
 
 from django.urls import reverse_lazy
+
+from dotenv import load_dotenv
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -240,3 +243,9 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
+
+# API keys
+load_dotenv()
+GETGEOAPI_KEY = os.getenv('GETGEOAPI_KEY')
+FIXER_API_KEY = os.getenv('FIXER_API_KEY')
+CUR_CONV_API_KEY = os.getenv('CUR_CONV_API_KEY')
