@@ -22,4 +22,5 @@ class RateFilter(django_filters.FilterSet):
             'sale': ('gte', 'lte'),
             'created': ('gte', 'lte'),
             'type': ('exact', ),
+            'source__code_name': ('exact',),
         }
