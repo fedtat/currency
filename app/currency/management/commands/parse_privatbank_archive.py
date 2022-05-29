@@ -21,23 +21,24 @@ class Command(BaseCommand):
         }
         source = Source.objects.get_or_create(code_name=mch.SourceCodeName.PRIVATBANK)[0]
 
-        rates = []
         base_date = datetime.today() - timedelta(days=1)
         days_num = 4 * 365
         dates_list = [base_date - timedelta(days=x) for x in range(days_num)]
         for date in dates_list:
-            url = f'https://api.privatbank.ua/p24api/exchange_rates?json&date={date.strftime("%d.%m.%Y")}'
-            response = requests.get(url)
+            params = {
+                'date': date.strftime("%d.%m.%Y")
+            }
+            url = f'https://api.privatbank.ua/p24api/exchange_rates?json'
+            response = requests.get(url, params=params)
             result = response.json()
-            rates.append(result)
 
-            for rate in rates:
-                c_date = rate['date']
+            for rate in response.json():
+                c_date = result['date']
                 created = datetime.strptime(c_date, '%d.%m.%Y').strftime('%Y-%m-%d %H:%M:%S')
                 created = datetime.strptime(created, '%Y-%m-%d %H:%M:%S')
                 tz = timezone.get_current_timezone()
                 timezone_dt = timezone.make_aware(created, tz, True)
-                for i in rate['exchangeRate']:
+                for i in result['exchangeRate']:
                     if available_currencies.get(i['baseCurrency']) == available_currencies.get(i.get('currency')):
                         continue
                     else:
