@@ -28,7 +28,7 @@ class Command(BaseCommand):
             params = {
                 'date': date.strftime("%d.%m.%Y")
             }
-            url = f'https://api.privatbank.ua/p24api/exchange_rates?json'
+            url = 'https://api.privatbank.ua/p24api/exchange_rates?json'
             response = requests.get(url, params=params)
             result = response.json()
 
