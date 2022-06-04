@@ -251,6 +251,6 @@ FIXER_API_KEY = os.getenv('FIXER_API_KEY')
 CUR_CONV_API_KEY = os.getenv('CUR_CONV_API_KEY')
 
 try:
-    from settings.settings_local import *
+    from settings.settings_local import *  # noqa: F403, F401
 except ImportError:
-    print('settings_local.py is not found')
+    print('settings_local.py is not found')  # noqa: T001
