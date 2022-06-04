@@ -12,7 +12,7 @@ run:
 	$(manage_py) runserver
 
 uwsgi:
-	uwsgi --chdir app/ --http 127.0.0.1:8000 --wsgi-file settings/wsgi.py --master --processes 4 --threads 2 --max-requests 1000 --http-timeout 10
+	uwsgi --chdir /home/highlight/PycharmProjects/currency/app/ --http 127.0.0.1:8000 --wsgi-file settings/wsgi.py --master --processes 4 --threads 2 --max-requests 1000 --http-timeout 10
 
 run-dev: migrate \
 	run
