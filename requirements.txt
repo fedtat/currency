@@ -9,6 +9,8 @@ djangorestframework-xml==2.0.0
 djangorestframework-csv==2.1.1
 djangorestframework-simplejwt==5.1.0
 python-dotenv==0.20.0
+uwsgi==2.0.20
+psycopg2-binary==2.9.3
 
 # dev
 Faker==13.0.0

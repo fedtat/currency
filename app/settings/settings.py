@@ -249,3 +249,8 @@ load_dotenv()
 GETGEOAPI_KEY = os.getenv('GETGEOAPI_KEY')
 FIXER_API_KEY = os.getenv('FIXER_API_KEY')
 CUR_CONV_API_KEY = os.getenv('CUR_CONV_API_KEY')
+
+try:
+    from settings.settings_local import *
+except ImportError:
+    print('settings_local.py is not found')
