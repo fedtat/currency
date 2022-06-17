@@ -1,4 +1,6 @@
+import os
 from decimal import Decimal
+from pathlib import Path
 
 from celery import shared_task
 
@@ -7,7 +9,12 @@ from currency import model_choices as mch
 from django.conf import settings
 from django.core.mail import send_mail
 
+import environ
+
 import requests
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+environ.Env.read_env(os.path.join(BASE_DIR, '..', '.env'))
 
 
 def round_decimal(value: str) -> Decimal:
@@ -151,7 +158,7 @@ def parse_getgeoapi():
     from currency.models import Rate, Source
 
     url = 'https://api.getgeoapi.com/v2/currency/convert'
-    api_key = settings.GETGEOAPI_KEY
+    api_key = os.environ['GETGEOAPI_KEY']
     available_currencies = {
         'UAH': mch.RateType.UAH,
         'USD': mch.RateType.USD,
@@ -227,7 +234,7 @@ def parse_fixer():
 
     url = 'https://api.apilayer.com/fixer/convert'
     headers = {
-        'apikey': settings.FIXER_API_KEY,
+        'apikey': os.environ['FIXER_API_KEY'],
     }
 
     available_currencies = {
@@ -305,7 +312,7 @@ def parse_freecurrconv():
     for currency in available_currencies.keys():
         params = {
             'q': f'{currency}_UAH,UAH_{currency}',
-            'apiKey': settings.CUR_CONV_API_KEY,
+            'apiKey': os.environ['CUR_CONV_API_KEY'],
         }
         response = requests.get(url, params=params)
         response.raise_for_status()
