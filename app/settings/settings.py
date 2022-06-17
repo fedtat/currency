@@ -17,7 +17,7 @@ from celery.schedules import crontab
 
 from django.urls import reverse_lazy
 
-from dotenv import load_dotenv
+import environ
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -27,11 +27,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+environ.Env.read_env(os.path.join(BASE_DIR, '..', '.env'))
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!ae0_)dws7@&2)=+d0n2omcgvg=qutk8-8!n2m#qo77b1*4^@%'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
@@ -98,13 +105,22 @@ WSGI_APPLICATION = 'settings.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ['POSTGRES_DB'],
+        'USER': os.environ['POSTGRES_USER'],
+        'PASSWORD': os.environ['POSTGRES_PASSWORD'],
+        'HOST': os.environ.get('POSTGRES_HOST', 'localhost'),
+        'PORT': os.environ.get('POSTGRES_PORT', '5432'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -140,7 +156,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = os.environ.get('STATIC_URL', '/static/')
 STATICFILES_DIRS = [
     BASE_DIR / 'accounts' / 'static',
 ]
@@ -176,31 +192,38 @@ HTTP_SCHEMA = 'http'
 MEDIA_ROOT = BASE_DIR / '..' / 'static_content' / 'media'
 MEDIA_URL = '/media/'
 
-CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+# CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+RABBITMQ_DEFAULT_USER = os.environ['RABBITMQ_DEFAULT_USER']
+RABBITMQ_DEFAULT_PASS = os.environ['RABBITMQ_DEFAULT_PASS']
+RABBITMQ_DEFAULT_HOST = os.environ.get('RABBITMQ_DEFAULT_HOST', 'localhost')
+RABBITMQ_DEFAULT_PORT = os.environ.get('RABBITMQ_DEFAULT_PORT', '5672')
+CELERY_BROKER_URL = f'amqp://{RABBITMQ_DEFAULT_USER}:{RABBITMQ_DEFAULT_PASS}@' \
+                    f'{RABBITMQ_DEFAULT_HOST}:{RABBITMQ_DEFAULT_PORT}//'
+
 CELERY_BEAT_SCHEDULE = {
     'parse_privatbank': {
         'task': 'currency.tasks.parse_privatbank',
-        'schedule': crontab(minute='*/5'),
+        'schedule': crontab(minute='*/30'),
     },
     'parse_monobank': {
         'task': 'currency.tasks.parse_monobank',
-        'schedule': crontab(minute='*/5'),
+        'schedule': crontab(minute='*/30'),
     },
     'parse_vkurse': {
         'task': 'currency.tasks.parse_vkurse',
-        'schedule': crontab(minute='*/5'),
+        'schedule': crontab(minute='*/30'),
     },
     'parse_getgeoapi': {
         'task': 'currency.tasks.parse_getgeoapi',
-        'schedule': crontab(minute='*/5'),
+        'schedule': crontab(minute='*/30'),
     },
     'parse_fixer': {
         'task': 'currency.tasks.parse_fixer',
-        'schedule': crontab(minute='*/5'),
+        'schedule': crontab(minute='*/30'),
     },
     'parse_freecurrconv': {
         'task': 'currency.tasks.parse_freecurrconv',
-        'schedule': crontab(minute='*/5'),
+        'schedule': crontab(minute='*/30'),
     },
 }
 
@@ -243,14 +266,3 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
-
-# API keys
-load_dotenv()
-GETGEOAPI_KEY = os.getenv('GETGEOAPI_KEY')
-FIXER_API_KEY = os.getenv('FIXER_API_KEY')
-CUR_CONV_API_KEY = os.getenv('CUR_CONV_API_KEY')
-
-try:
-    from settings.settings_local import *  # noqa: F403, F401
-except ImportError:
-    print('settings_local.py is not found')  # noqa: T001

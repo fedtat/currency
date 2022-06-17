@@ -1,0 +1,84 @@
+version: "3"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.10.2
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+    env_file:
+      - .env
+
+  backend:
+    image: local:0.0.1
+    build: .
+    container_name: backend
+    stdin_open: true
+    tty: true
+    volumes:
+      - "./:/code/build"
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - rabbitmq
+
+  celery:
+    image: local:0.0.1
+    build: .
+    container_name: celery
+    stdin_open: true
+    tty: true
+    command: celery -A settings worker -l info -c 2 --pidfile=/tmp/celery.pid
+    volumes:
+      - "./:/code/build"
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - rabbitmq
+
+  celerybeat:
+    image: local:0.0.1
+    build: .
+    container_name: celerybeat
+    stdin_open: true
+    tty: true
+    command: celery -A settings beat -l info --schedule=/tmp/celerybeat-schedule --pidfile=/tmp/celerybeat.pid
+    volumes:
+      - "./:/code/build"
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - rabbitmq
+
+  postgres:
+    image: postgres:14.3
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+#    environment:
+#      POSTGRES_PASSWORD: superSecretPassword
+#      POSTGRES_USER: example_user
+#      POSTGRES_DB: currency
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  nginx:
+    image: nginx:1.21.6
+    container_name: nginx
+    depends_on:
+      - backend
+    volumes:
+      - "./default.conf:/etc/nginx/conf.d/default.conf:ro"
+    ports:
+      - "80:80"
+      - "443:443"
+
+volumes:
+  db_data: {}
