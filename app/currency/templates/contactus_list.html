@@ -3,23 +3,36 @@
 {% block title %}ContactUs{% endblock %}
 
 {% block content %}
-    <a href="{% url 'currency:contactus_create' %}">ContactUs</a>
-    <table>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Subject</th>
-            <th>Message</th>
-        </tr>
-        {% for contact in object_list %}
-        <tr>
-            <td>{{ contact.id }}</td>
-            <td>{{ contact.name }}</td>
-            <td>{{ contact.email_from }}</td>
-            <td>{{ contact.subject }}</td>
-            <td>{{ contact.message }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+<div class="row">
+    <div class="col">
+        <a href="{% url 'currency:contactus_create' %}">ContactUs</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Message</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for contact in object_list %}
+            <tr>
+                <td>{{ contact.id }}</td>
+                <td>{{ contact.name }}</td>
+                <td>{{ contact.email_from }}</td>
+                <td>{{ contact.subject }}</td>
+                <td>{{ contact.message }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock content %}
