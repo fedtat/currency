@@ -1,21 +1,21 @@
-from time import time
+from django.utils import timezone
 
 
-class RequestResponseTimeMiddleware:
+class TimezoneMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
-        # One-time configuration and initialization.
 
     def __call__(self, request):
-        # Code to be executed for each request before
-        # the view (and later middleware) are called.
 
-        start = time()
+        self._activate_timezone(request)
         response = self.get_response(request)
-        end = time()
-        print(f'View took to execute: {end - start}')  # noqa: T001
-
-        # Code to be executed for each request/response after
-        # the view is called.
 
         return response
+
+    def _activate_timezone(self, request):
+        tzname = request.COOKIES.get('user-timezone')
+
+        if tzname:
+            timezone.activate(tzname)
+        else:
+            timezone.deactivate()
