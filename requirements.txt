@@ -12,6 +12,8 @@ uwsgi==2.0.20
 psycopg2-binary==2.9.3
 django-environ
 flower==1.0.0
+django-admin-rangefilter==0.8.4
+django-silk==4.3.0
 
 # dev
 Faker==13.0.0
